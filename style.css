@@ -1,0 +1,128 @@
+/* =================================================================
+   1. TEMA DEĞİŞKENLERİ VE GENEL YAPI
+================================================================= */
+
+:root{
+  --bg: #f4f4f9;
+  --panel: #ffffff;
+  --text: #333;
+  --shadow: 0 4px 8px rgba(0,0,0,0.1); /* Açık mod için gölge */
+}
+
+body.dark{
+  --bg: #121212;
+  --panel: #1e1e1e;
+  --text: #e5e5e5;
+  --shadow: 0 4px 8px rgba(0,0,0,0.3); /* Karanlık mod için gölge */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* =================================================================
+   2. ANA BİLEŞENLER (GÖSTERİM ALANI, KONTROL PANELLERİ)
+================================================================= */
+
+/* Ana gösterim alanı */
+#display{
+  background: var(--panel);
+  min-height: 110px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Gösterim alanının büyütülmüş (tam ekran) hali */
+#display.enlarged{
+  min-height: 80vh;
+  font-size: clamp(1.5rem, 4vw, 4rem);
+}
+
+/* Ayarların yapıldığı kontrol panelleri */
+.row.g-3.mb-3 > .col-12, .input-group.mb-3 {
+  background: var(--panel);
+  padding: 1rem;
+  border-radius: .5rem;
+  box-shadow: var(--shadow);
+}
+
+
+/* =================================================================
+   3. BUTONLAR VE DİĞER KONTROLLER
+================================================================= */
+
+/* Büyüt / Küçült Butonları */
+#fullBtn,
+#exitFullBtn {
+  background-color: transparent;
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#fullBtn:hover,
+#exitFullBtn:hover {
+  background-color: var(--text);
+  color: var(--bg);
+}
+
+/* Tema Değiştirme Anahtarı */
+.big-switch .form-check-input{
+  transform: scale(1.8);
+  margin-right: .1rem;
+  cursor: pointer;
+}
+
+/* Özel metin kutusunun başlangıçta gizli olması */
+#customTextArea {
+  display: none;
+}
+
+
+/* =================================================================
+   4. YARDIMCI SINIFLARI EZME (Bootstrap Override)
+================================================================= */
+
+/* .text-muted sınıfının karanlık modda görünür olmasını sağlar */
+body.dark .text-muted {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+
+/* =================================================================
+   5. YENİ ÖZELLİKLER (ODAK NOKTASI & İLERLEME ÇUBUĞU)
+================================================================= */
+
+/* Odak çizgisi (Dikey çizgi) */
+#focus-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.3); /* Yarı saydam kırmızı */
+  z-index: 10;
+  display: none; /* Başlangıçta gizli */
+}
+
+/* Okuma başladığında odak çizgisini göster */
+body.reading #focus-line {
+  display: block;
+}
+
+/* Odaklanmış harf için stil */
+.focus-letter {
+  color: #dc3545; /* Kırmızı renk */
+}
+
+/* Progress bar'a yumuşak bir geçiş ekleyelim */
+#progressBar {
+  transition: width 0.2s ease-out;
+}
