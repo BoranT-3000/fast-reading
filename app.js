@@ -266,10 +266,10 @@ fileInput.onchange = e=>{
 };
 
 /***** KÜTÜPHANEYİ YÜKLE *****/
-// (function loadLibrary(){
-//   populateLibrary(localLibrary);
-//   populateTeacherLibrary(); // öğretmen metinlerini de bas
-// })();
+  (function loadLibrary(){
+     populateLibrary(localLibrary);
+     populateTeacherLibrary(); // öğretmen metinlerini de bas
+})();
 
 function populateLibrary(library){
   library.forEach(category => {
@@ -493,26 +493,5 @@ function enforceSoundLimit() {
 /***** Bootstrap Tooltip'leri Başlat *****/
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-
-// ========================================================================
-// DIŞ JSON'DAN KÜTÜPHANE YÜKLEME
-// ========================================================================
-async function loadExternalLibrary() {
-  try {
-    const res = await fetch('library.json'); // aynı dizinde
-    if (!res.ok) throw new Error('library.json bulunamadı');
-    const data = await res.json();
-    populateLibrary(data); // senin mevcut fonksiyon
-  } catch (e) {
-    console.warn('JSON kütüphane yüklenemedi:', e);
-  }
-}
-
-// init sırasında:
-(function initLibrary(){
-  populateLibrary(localLibrary);
-  populateTeacherLibrary();
-  loadExternalLibrary();  // dış JSON’u da ekle
-})();
+// come on
 
