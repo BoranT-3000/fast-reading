@@ -1,128 +1,393 @@
-/* =================================================================
-   1. TEMA DEĞİŞKENLERİ VE GENEL YAPI
-================================================================= */
-
+/* ===============  THEME TOKENS  =============== */
 :root{
-  --bg: #f4f4f9;
+  --bg: #f6f7fb;
   --panel: #ffffff;
-  --text: #333;
-  --shadow: 0 4px 8px rgba(0,0,0,0.1); /* Açık mod için gölge */
+  --panel-2: #f0f2f7;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --primary: #1d4ed8;
+  --primary-2: #2563eb;
+  --border: rgba(15, 23, 42, 0.08);
+  --shadow: 0 4px 16px rgba(2, 6, 23, .08);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --focus-line: rgba(29, 78, 216, .15);
+  --focus-line-strong: rgba(29, 78, 216, .6);
 }
 
 body.dark{
-  --bg: #121212;
-  --panel: #1e1e1e;
-  --text: #e5e5e5;
-  --shadow: 0 4px 8px rgba(0,0,0,0.3); /* Karanlık mod için gölge */
+  --bg: #0c111b;
+  --panel: #0f1627;
+  --panel-2: #121a2d;
+  --text: #e6e8ef;
+  --muted: #a3acc2;
+  --primary: #60a5fa;
+  --primary-2: #93c5fd;
+  --border: rgba(230, 232, 239, 0.12);
+  --shadow: 0 6px 20px rgba(0, 0, 0, .35);
+
+  --focus-line: rgba(96, 165, 250, .18);
+  --focus-line-strong: rgba(147, 197, 253, .75);
 }
 
-body {
+/* ===============  BASE  =============== */
+html,body{
   background: var(--bg);
   color: var(--text);
-  transition: background-color 0.3s, color 0.3s;
+}
+.container{
+  max-width: 1100px;
+}
+hr{
+  border-color: var(--border);
+  opacity: 1;
 }
 
-
-/* =================================================================
-   2. ANA BİLEŞENLER (GÖSTERİM ALANI, KONTROL PANELLERİ)
-================================================================= */
-
-/* Ana gösterim alanı */
-#display{
-  background: var(--panel);
-  min-height: 110px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-/* Gösterim alanının büyütülmüş (tam ekran) hali */
-#display.enlarged{
-  min-height: 80vh;
-  font-size: clamp(1.5rem, 4vw, 4rem);
-}
-
-/* Ayarların yapıldığı kontrol panelleri */
-.row.g-3.mb-3 > .col-12, .input-group.mb-3 {
-  background: var(--panel);
-  padding: 1rem;
-  border-radius: .5rem;
-  box-shadow: var(--shadow);
-}
-
-
-/* =================================================================
-   3. BUTONLAR VE DİĞER KONTROLLER
-================================================================= */
-
-/* Büyüt / Küçült Butonları */
-#fullBtn,
-#exitFullBtn {
-  background-color: transparent;
-  border: 1px solid var(--text);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: 0.3rem;
+/* ===============  HEADER  =============== */
+header img{ user-select:none }
+.theme-emoji{ font-size:1.1rem; line-height:1 }
+.big-switch .form-check-input{
+  transform: scale(1.5);
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+}
+.form-check-input:focus{ box-shadow:none }
+.form-check-input:checked{
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
-#fullBtn:hover,
-#exitFullBtn:hover {
-  background-color: var(--text);
+/* ===============  NAV TABS  =============== */
+.nav-tabs{
+  border-bottom: 1px solid var(--border);
+}
+.nav-tabs .nav-link{
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: .6rem 1rem;
+  font-weight: 600;
+}
+.nav-tabs .nav-link:hover{
+  color: var(--primary);
+}
+.nav-tabs .nav-link.active{
+  color: var(--primary);
+  background: transparent;
+  border-bottom-color: var(--primary);
+}
+.tab-pane{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: none !important;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ===============  FORMS  =============== */
+.form-control,
+.form-select{
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.form-control:focus,
+.form-select:focus{
+  border-color: var(--primary-2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+.input-group .btn{
+  border-color: var(--border);
+}
+.input-group .btn:hover{
+  background: var(--panel-2);
+}
+
+/* disabled görünümleri dark/light uyumlu */
+.form-check-input:disabled,
+.form-control:disabled,
+.form-select:disabled{
+  background-color: var(--panel-2);
+  opacity: .8;
+}
+
+/* Placeholder rengi */
+::placeholder{ color: var(--muted) }
+
+/* ===============  SETTINGS  =============== */
+#settingsCollapse .card{
+  background: transparent;
+  border: none;
+}
+#settingsCollapse .card-body{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem;
+}
+
+/* esnek grid: hizalama sorunlarını çözer */
+.settings-grid{
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: .8rem 1rem;
+  align-items: center;
+}
+@media (max-width: 992px){
+  .settings-grid{ grid-template-columns: repeat(3, auto); }
+}
+@media (max-width: 576px){
+  .settings-grid{ grid-template-columns: 1fr 1fr; }
+}
+.settings-grid .form-check{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+}
+
+/* Settings butonu */
+.btn-outline-secondary{
+  border-color: var(--border);
+  color: var(--text);
+  background: var(--panel);
+}
+.btn-outline-secondary:hover{
+  background: var(--panel-2);
+  border-color: var(--border);
+}
+
+/* ===============  SLIDERS  =============== */
+.form-range{
+  height: 1.25rem;
+}
+.form-range::-webkit-slider-runnable-track{
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary) 0%) no-repeat,
+              linear-gradient(90deg, var(--border), var(--border));
+  border-radius: 999px;
+}
+.form-range::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px; margin-top: -6px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 2px solid var(--primary);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+.form-range:focus{ outline: none }
+
+/* Firefox */
+.form-range::-moz-range-track{
+  height: 6px;
+  background: var(--border);
+  border-radius: 999px;
+}
+.form-range::-moz-range-thumb{
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--panel);
+  border: 2px solid var(--primary);
+}
+
+/* küçük açıklama yazıları */
+small.text-muted{ color: var(--muted) !important }
+
+/* ===============  CONTROLS (Buttons)  =============== */
+.btn-primary{
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover{
+  background: var(--primary-2);
+  border-color: var(--primary-2);
+}
+.btn-outline-dark{
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--panel);
+}
+.btn-outline-dark:hover{
+  background: var(--panel-2);
+}
+
+/* ===============  DISPLAY AREA  =============== */
+#display-wrapper{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+#display{
+  min-height: 160px;
+  font-size: 3.5rem;
+  line-height: 1.25;
+  color: var(--text);
+  background: transparent;
+}
+#focus-line{
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2.5rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--focus-line) 45%,
+    var(--focus-line-strong) 50%,
+    var(--focus-line) 55%,
+    transparent 100%
+  );
+  opacity: 0; /* toggle ile aç/kapa */
+  transition: opacity .2s ease;
+}
+body.focus-enabled #focus-line{ opacity: 1 }
+
+/* Progress bar */
+.progress{
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.progress-bar{
+  background: var(--primary);
+}
+
+/* ===============  TOOLTIP CONTRAST  =============== */
+.tooltip-inner{
+  background: var(--text);
   color: var(--bg);
 }
+.tooltip.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,
+.tooltip.bs-tooltip-top .tooltip-arrow::before{
+  border-top-color: var(--text) !important;
+}
 
-/* Tema Değiştirme Anahtarı */
-.big-switch .form-check-input{
-  transform: scale(1.8);
-  margin-right: .1rem;
+/* ===============  UTILITIES  =============== */
+.rounded{ border-radius: var(--radius) !important }
+.rounded-bottom{ border-bottom-left-radius: var(--radius) !important; border-bottom-right-radius: var(--radius) !important }
+.border{ border-color: var(--border) !important }
+.border-top-0{ border-top: 0 !important }
+
+/* Düzgün kart kenar boşlukları */
+.tab-pane .form-select,
+.tab-pane .form-control{ box-shadow: none }
+
+/* Textarea’nin dark/lite kenarlığı */
+#customTextArea{ border-color: var(--border) }
+
+/* File input (webkit-only kısım) */
+input[type="file"]::file-selector-button{
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .4rem .75rem;
+  margin-right: .75rem;
   cursor: pointer;
 }
-
-/* Özel metin kutusunun başlangıçta gizli olması */
-#customTextArea {
-  display: none;
+input[type="file"]::file-selector-button:hover{
+  background: var(--panel);
 }
 
+/* Footer */
+footer{ color: var(--muted) }
 
-/* =================================================================
-   4. YARDIMCI SINIFLARI EZME (Bootstrap Override)
-================================================================= */
-
-/* .text-muted sınıfının karanlık modda görünür olmasını sağlar */
-body.dark .text-muted {
-  color: rgba(255, 255, 255, 0.5) !important;
+/* ===============  RESPONSIVE TWEAKS  =============== */
+@media (max-width: 768px){
+  #display{ font-size: 2.6rem; }
+}
+@media (max-width: 480px){
+  header .h5{ font-size: 1rem }
+  .big-switch .form-check-input{ transform: scale(1.3) }
+  #display{ font-size: 2.2rem; }
 }
 
-
-/* =================================================================
-   5. YENİ ÖZELLİKLER (ODAK NOKTASI & İLERLEME ÇUBUĞU)
-================================================================= */
-
-/* Odak çizgisi (Dikey çizgi) */
-#focus-line {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%;
-  background-color: rgba(255, 0, 0, 0.3); /* Yarı saydam kırmızı */
-  z-index: 10;
-  display: none; /* Başlangıçta gizli */
+/* ===============  OPTIONAL: FULLSCREEN STATE  =============== */
+/* Tam ekran moduna geçerken (JS ile body’ye .fullscreen ekleyebilirsin) */
+body.fullscreen #display-wrapper{
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  z-index: 1060;
+  border-radius: 0;
+  border: none;
+}
+body.fullscreen #display{
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2.8rem, 6vw + 1rem, 8rem);
 }
 
-/* Okuma başladığında odak çizgisini göster */
-body.reading #focus-line {
-  display: block;
+/* Tema kapsülü: emoji + switch ortalanmış, aralık tatlı */
+.theme-toggle{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .25rem .6rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+.theme-toggle .form-check-input{ transform: scale(1.25); }
+.theme-emoji{ font-size: 1rem; line-height: 1 }
+
+/* Odak çizgileri: konum/kalınlık CSS değişkenleri üzerinden */
+:root{
+  --focus-y: 50%;                /* yatay çizginin Y merkezi */
+  --focus-x: 50%;                /* dikey çizginin X merkezi */
+  --focus-thick: 2.5rem;         /* yatay kalınlık */
+  --focus-thick-vert: 4px;       /* dikey kalınlık */
 }
 
-/* Odaklanmış harf için stil */
-.focus-letter {
-  color: #dc3545; /* Kırmızı renk */
+/* Yatay çizgi */
+#focus-line{
+  position: absolute; left: 0; right: 0;
+  top: var(--focus-y);
+  transform: translateY(calc(-1 * var(--focus-thick) / 2));
+  height: var(--focus-thick);
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--focus-line) 45%,
+    var(--focus-line-strong) 50%,
+    var(--focus-line) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 
-/* Progress bar'a yumuşak bir geçiş ekleyelim */
-#progressBar {
-  transition: width 0.2s ease-out;
+/* Dikey çizgi (yeni) */
+#focus-line-vert{
+  position: absolute; top: 0; bottom: 0;
+  left: var(--focus-x);
+  transform: translateX(calc(-1 * var(--focus-thick-vert) / 2));
+  width: var(--focus-thick-vert);
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0,
+    var(--focus-line) 45%,
+    var(--focus-line-strong) 50%,
+    var(--focus-line) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity .2s ease;
 }
+
+/* Göster/gizle sınıfları */
+body.focus-enabled #focus-line{ opacity: 1; }
+body.focus-vertical-enabled #focus-line-vert{ opacity: 1; }
+
